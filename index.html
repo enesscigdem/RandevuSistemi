@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Randevu Formu</title>
+
+    <!-- CSS: jQuery UI ve Bootstrap -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+    <style>
+        .form-group { margin-bottom: 1rem; }
+        .control-label { font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container my-4">
+    <h2 class="mb-4">Resmi Belgeler İçin Randevu Formu</h2>
+
+    <form id="randevuForm"
+          action="/BgSubmissionDoc/Home/AddSubDoc"
+          method="post"
+          enctype="multipart/form-data"
+          class="form-horizontal">
+
+        <!-- CSRF token -->
+        <input type="hidden" name="__RequestVerificationToken" value="BURAYA_TOKEN" />
+
+        <!-- 1) Rezervasyon Tarihi ve Saati -->
+        <div class="form-group row">
+            <label for="rezervasyonTarihi" class="col-sm-2 control-label">
+                Rezervasyon Tarihi
+            </label>
+            <div class="col-sm-4">
+                <input type="text"
+                       id="rezervasyonTarihi"
+                       name="ReservedDate"
+                       class="form-control datepicker"
+                       placeholder="gg.aa.yyyy"
+                       required>
+            </div>
+            <div class="col-sm-2">
+                <select id="rezervasyonSaati"
+                        name="ReservedTime"
+                        class="form-control ekSecimler"
+                        required>
+                    <option value="">– Saat Seçin –</option>
+                    <!-- JS ile doldurulacak -->
+                </select>
+            </div>
+        </div>
+
+        <!-- 2) Başvuru Sahibinin Adı -->
+        <div class="form-group row">
+            <label for="basvuruAdi" class="col-sm-2 control-label">
+                Başvuru Sahibinin Adı
+            </label>
+            <div class="col-sm-6">
+                <input type="text"
+                       id="basvuruAdi"
+                       name="ApplicantName"
+                       class="form-control ekSecimler"
+                       required>
+            </div>
+        </div>
+
+        <!-- 3) Doğum Tarihi -->
+        <div class="form-group row">
+            <label class="col-sm-2 control-label">Doğum Tarihi</label>
+            <div class="col-sm-2">
+                <select id="dogumGunu"
+                        name="BirthDay"
+                        class="form-control ekSecimler"
+                        required>
+                    <option value="">Gün</option>
+                    <script>
+                        for (let d = 1; d <= 31; d++) {
+                            document.write(`<option value="${d}">${d}</option>`);
+                        }
+                    </script>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select id="dogumAy"
+                        name="BirthMonth"
+                        class="form-control ekSecimler"
+                        required>
+                    <option value="">Ay</option>
+                    <script>
+                        for (let m = 1; m <= 12; m++) {
+                            document.write(`<option value="${m}">${m}</option>`);
+                        }
+                    </script>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select id="dogumYil"
+                        name="BirthYear"
+                        class="form-control ekSecimler"
+                        required>
+                    <option value="">Yıl</option>
+                    <script>
+                        const yilSimdi = new Date().getFullYear();
+                        for (let y = yilSimdi; y >= 1900; y--) {
+                            document.write(`<option value="${y}">${y}</option>`);
+                        }
+                    </script>
+                </select>
+            </div>
+        </div>
+
+        <!-- 4) Pasaport Numarası -->
+        <div class="form-group row">
+            <label for="pasaportNo" class="col-sm-2 control-label">
+                Pasaport Numarası
+            </label>
+            <div class="col-sm-4">
+                <input type="text"
+                       id="pasaportNo"
+                       name="PassportNumber"
+                       class="form-control ekSecimler"
+                       required>
+            </div>
+        </div>
+
+        <!-- 5) Pasaport Görseli -->
+        <div class="form-group row">
+            <label for="pasaportDosya" class="col-sm-2 control-label">
+                Pasaport Görseli
+            </label>
+            <div class="col-sm-4">
+                <input type="file"
+                       id="pasaportDosya"
+                       name="PassportImage"
+                       class="form-control-file ekSecimler"
+                       required>
+            </div>
+        </div>
+
+        <!-- 6) E-posta Adresi -->
+        <div class="form-group row">
+            <label for="eposta" class="col-sm-2 control-label">
+                E-posta Adresi
+            </label>
+            <div class="col-sm-4">
+                <input type="email"
+                       id="eposta"
+                       name="Email"
+                       class="form-control ekSecimler"
+                       required>
+            </div>
+        </div>
+
+        <!-- 7) Vatandaşlık -->
+        <div class="form-group row">
+            <label for="vatandaslik" class="col-sm-2 control-label">
+                Vatandaşlık
+            </label>
+            <div class="col-sm-4">
+                <select id="vatandaslik"
+                        name="Citizenship"
+                        class="form-control ekSecimler"
+                        required>
+                    <option value="">– Seçin –</option>
+                    <option>Bulgaristan</option>
+                    <option>Ukrayna</option>
+                    <option>Diğer</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 8) Başvuru Nedeni -->
+        <div class="form-group row">
+            <label for="temel" class="col-sm-2 control-label">
+                Başvuru Nedeni
+            </label>
+            <div class="col-sm-4">
+                <select id="temel"
+                        name="Basis"
+                        class="form-control ekSecimler"
+                        required>
+                    <option value="">– Seçin –</option>
+                    <option value="rodstvo">Akrabalık</option>
+                    <option value="brak">Evlilik</option>
+                    <option value="drugo">Diğer</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 9) Kalıcı İkamet -->
+        <div class="form-group row">
+            <div class="col-sm-offset-2 col-sm-6">
+                <div class="form-check">
+                    <input type="checkbox"
+                           id="kaliciIkamet"
+                           name="IsPermanentResident"
+                           class="form-check-input">
+                    <label for="kaliciIkamet"
+                           class="form-check-label">
+                        Kalıcı İkamet
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10) reCAPTCHA -->
+        <div class="form-group row">
+            <div class="col-sm-offset-2 col-sm-6">
+                <div class="g-recaptcha"
+                     data-sitekey="BURAYA_RECAPTCHA_SITE_KEY"></div>
+            </div>
+        </div>
+
+        <!-- 11) Aile Üyesi İçin Randevu -->
+        <div class="form-group row">
+            <div class="col-sm-offset-2 col-sm-6">
+                <div class="form-check">
+                    <input type="checkbox"
+                           id="aileRandevuCheck"
+                           name="IsFamilyAppointment"
+                           class="form-check-input">
+                    <label for="aileRandevuCheck"
+                           class="form-check-label">
+                        Aile Üyesi İçin Randevu
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row" id="aileUyesiWrapper" style="display:none;">
+            <label for="aileUyesi" class="col-sm-2 control-label">
+                Üye Seçin
+            </label>
+            <div class="col-sm-4">
+                <select id="aileUyesi"
+                        name="FamilyMemberId"
+                        class="form-control">
+                    <option value="">– Seçin –</option>
+                    <option value="1">Üye 1</option>
+                    <option value="2">Üye 2</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 12) Gönder -->
+        <div class="form-group row mt-3">
+            <div class="col-sm-offset-2 col-sm-6">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Gönder
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- JS: jQuery, jQuery UI, Bootstrap, reCAPTCHA -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+    $(function() {
+        $(".datepicker").datepicker({
+            dateFormat: "dd.mm.yy",
+            firstDay: 1,
+            beforeShowDay: $.datepicker.noWeekends
+        });
+        $("#aileRandevuCheck").on("change", function() {
+            $("#aileUyesiWrapper").toggle(this.checked);
+        });
+        $(".ekSecimler").on("change", function() {
+            $("#randevuForm")
+                .attr("action", "/BgSubmissionDoc/Home/AddSubDoc")
+                .submit();
+        });
+    });
+</script>
+</body>
+</html>
