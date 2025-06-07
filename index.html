@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Randevu Formu</title>
 
-    <!-- CSS: jQuery UI ve Bootstrap -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- CSS: jQuery UI ve Bootstrap CDN -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
 
     <style>
         .form-group { margin-bottom: 1rem; }
@@ -20,14 +24,16 @@
 <div class="container my-4">
     <h2 class="mb-4">Resmi Belgeler İçin Randevu Formu</h2>
 
-    <form id="randevuForm"
-          action="/BgSubmissionDoc/Home/AddSubDoc"
-          method="post"
-          enctype="multipart/form-data"
-          class="form-horizontal">
-
-        <!-- CSRF token -->
-        <input type="hidden" name="__RequestVerificationToken" value="BURAYA_TOKEN" />
+    <!-- Formspree endpoint’i aşağıya ekleyin -->
+    <form
+            id="randevuForm"
+            action="https://formspree.io/f/manjqgkj"
+            method="POST"
+            enctype="multipart/form-data"
+            class="form-horizontal"
+    >
+        <!-- Formspree için gizli email alanı (şart değilse silebilirsiniz) -->
+        <input type="hidden" name="_subject" value="Yeni Randevu Başvurusu">
 
         <!-- 1) Rezervasyon Tarihi ve Saati -->
         <div class="form-group row">
@@ -35,20 +41,27 @@
                 Rezervasyon Tarihi
             </label>
             <div class="col-sm-4">
-                <input type="text"
-                       id="rezervasyonTarihi"
-                       name="ReservedDate"
-                       class="form-control datepicker"
-                       placeholder="gg.aa.yyyy"
-                       required>
+                <input
+                        type="text"
+                        id="rezervasyonTarihi"
+                        name="ReservedDate"
+                        class="form-control datepicker"
+                        placeholder="gg.aa.yyyy"
+                        required
+                >
             </div>
             <div class="col-sm-2">
-                <select id="rezervasyonSaati"
+                <select
+                        id="rezervasyonSaati"
                         name="ReservedTime"
-                        class="form-control ekSecimler"
-                        required>
+                        class="form-control"
+                        required
+                >
                     <option value="">– Saat Seçin –</option>
-                    <!-- JS ile doldurulacak -->
+                    <option>09:00</option>
+                    <option>10:00</option>
+                    <option>11:00</option>
+                    <!-- İsterseniz burayı genişletin -->
                 </select>
             </div>
         </div>
@@ -59,11 +72,13 @@
                 Başvuru Sahibinin Adı
             </label>
             <div class="col-sm-6">
-                <input type="text"
-                       id="basvuruAdi"
-                       name="ApplicantName"
-                       class="form-control ekSecimler"
-                       required>
+                <input
+                        type="text"
+                        id="basvuruAdi"
+                        name="ApplicantName"
+                        class="form-control"
+                        required
+                >
             </div>
         </div>
 
@@ -71,10 +86,7 @@
         <div class="form-group row">
             <label class="col-sm-2 control-label">Doğum Tarihi</label>
             <div class="col-sm-2">
-                <select id="dogumGunu"
-                        name="BirthDay"
-                        class="form-control ekSecimler"
-                        required>
+                <select name="BirthDay" class="form-control" required>
                     <option value="">Gün</option>
                     <script>
                         for (let d = 1; d <= 31; d++) {
@@ -84,27 +96,23 @@
                 </select>
             </div>
             <div class="col-sm-2">
-                <select id="dogumAy"
-                        name="BirthMonth"
-                        class="form-control ekSecimler"
-                        required>
+                <select name="BirthMonth" class="form-control" required>
                     <option value="">Ay</option>
                     <script>
                         for (let m = 1; m <= 12; m++) {
-                            document.write(`<option value="${m}">${m}</option>`);
+                            document.write(
+                                `<option value="${m}">${m}</option>`
+                            );
                         }
                     </script>
                 </select>
             </div>
             <div class="col-sm-2">
-                <select id="dogumYil"
-                        name="BirthYear"
-                        class="form-control ekSecimler"
-                        required>
+                <select name="BirthYear" class="form-control" required>
                     <option value="">Yıl</option>
                     <script>
-                        const yilSimdi = new Date().getFullYear();
-                        for (let y = yilSimdi; y >= 1900; y--) {
+                        const yearNow = new Date().getFullYear();
+                        for (let y = yearNow; y >= 1900; y--) {
                             document.write(`<option value="${y}">${y}</option>`);
                         }
                     </script>
@@ -118,11 +126,13 @@
                 Pasaport Numarası
             </label>
             <div class="col-sm-4">
-                <input type="text"
-                       id="pasaportNo"
-                       name="PassportNumber"
-                       class="form-control ekSecimler"
-                       required>
+                <input
+                        type="text"
+                        id="pasaportNo"
+                        name="PassportNumber"
+                        class="form-control"
+                        required
+                >
             </div>
         </div>
 
@@ -132,11 +142,13 @@
                 Pasaport Görseli
             </label>
             <div class="col-sm-4">
-                <input type="file"
-                       id="pasaportDosya"
-                       name="PassportImage"
-                       class="form-control-file ekSecimler"
-                       required>
+                <input
+                        type="file"
+                        id="pasaportDosya"
+                        name="PassportImage"
+                        class="form-control-file"
+                        accept="image/*"
+                >
             </div>
         </div>
 
@@ -146,11 +158,13 @@
                 E-posta Adresi
             </label>
             <div class="col-sm-4">
-                <input type="email"
-                       id="eposta"
-                       name="Email"
-                       class="form-control ekSecimler"
-                       required>
+                <input
+                        type="email"
+                        id="eposta"
+                        name="Email"
+                        class="form-control"
+                        required
+                >
             </div>
         </div>
 
@@ -160,10 +174,12 @@
                 Vatandaşlık
             </label>
             <div class="col-sm-4">
-                <select id="vatandaslik"
+                <select
+                        id="vatandaslik"
                         name="Citizenship"
-                        class="form-control ekSecimler"
-                        required>
+                        class="form-control"
+                        required
+                >
                     <option value="">– Seçin –</option>
                     <option>Bulgaristan</option>
                     <option>Ukrayna</option>
@@ -178,10 +194,12 @@
                 Başvuru Nedeni
             </label>
             <div class="col-sm-4">
-                <select id="temel"
+                <select
+                        id="temel"
                         name="Basis"
-                        class="form-control ekSecimler"
-                        required>
+                        class="form-control"
+                        required
+                >
                     <option value="">– Seçin –</option>
                     <option value="rodstvo">Akrabalık</option>
                     <option value="brak">Evlilik</option>
@@ -194,49 +212,49 @@
         <div class="form-group row">
             <div class="col-sm-offset-2 col-sm-6">
                 <div class="form-check">
-                    <input type="checkbox"
-                           id="kaliciIkamet"
-                           name="IsPermanentResident"
-                           class="form-check-input">
-                    <label for="kaliciIkamet"
-                           class="form-check-label">
+                    <input
+                            type="checkbox"
+                            id="kaliciIkamet"
+                            name="IsPermanentResident"
+                            class="form-check-input"
+                    >
+                    <label for="kaliciIkamet" class="form-check-label">
                         Kalıcı İkamet
                     </label>
                 </div>
             </div>
         </div>
 
-        <!-- 10) reCAPTCHA -->
-        <div class="form-group row">
-            <div class="col-sm-offset-2 col-sm-6">
-                <div class="g-recaptcha"
-                     data-sitekey="BURAYA_RECAPTCHA_SITE_KEY"></div>
-            </div>
-        </div>
-
-        <!-- 11) Aile Üyesi İçin Randevu -->
+        <!-- 10) Aile Üyesi İçin Randevu -->
         <div class="form-group row">
             <div class="col-sm-offset-2 col-sm-6">
                 <div class="form-check">
-                    <input type="checkbox"
-                           id="aileRandevuCheck"
-                           name="IsFamilyAppointment"
-                           class="form-check-input">
-                    <label for="aileRandevuCheck"
-                           class="form-check-label">
+                    <input
+                            type="checkbox"
+                            id="aileRandevuCheck"
+                            name="IsFamilyAppointment"
+                            class="form-check-input"
+                    >
+                    <label for="aileRandevuCheck" class="form-check-label">
                         Aile Üyesi İçin Randevu
                     </label>
                 </div>
             </div>
         </div>
-        <div class="form-group row" id="aileUyesiWrapper" style="display:none;">
+        <div
+                class="form-group row"
+                id="aileUyesiWrapper"
+                style="display:none;"
+        >
             <label for="aileUyesi" class="col-sm-2 control-label">
                 Üye Seçin
             </label>
             <div class="col-sm-4">
-                <select id="aileUyesi"
+                <select
+                        id="aileUyesi"
                         name="FamilyMemberId"
-                        class="form-control">
+                        class="form-control"
+                >
                     <option value="">– Seçin –</option>
                     <option value="1">Üye 1</option>
                     <option value="2">Üye 2</option>
@@ -244,11 +262,10 @@
             </div>
         </div>
 
-        <!-- 12) Gönder -->
+        <!-- 11) Gönder -->
         <div class="form-group row mt-3">
             <div class="col-sm-offset-2 col-sm-6">
-                <button type="submit"
-                        class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">
                     Gönder
                 </button>
             </div>
@@ -256,27 +273,24 @@
     </form>
 </div>
 
-<!-- JS: jQuery, jQuery UI, Bootstrap, reCAPTCHA -->
+<!-- JS: jQuery, jQuery UI ve Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <script>
+    // Tarih seçici
     $(function() {
         $(".datepicker").datepicker({
             dateFormat: "dd.mm.yy",
             firstDay: 1,
             beforeShowDay: $.datepicker.noWeekends
         });
-        $("#aileRandevuCheck").on("change", function() {
-            $("#aileUyesiWrapper").toggle(this.checked);
-        });
-        $(".ekSecimler").on("change", function() {
-            $("#randevuForm")
-                .attr("action", "/BgSubmissionDoc/Home/AddSubDoc")
-                .submit();
-        });
+    });
+
+    // Aile üyesi seçim dropdown’u göster/gizle
+    $("#aileRandevuCheck").on("change", function() {
+        $("#aileUyesiWrapper").toggle(this.checked);
     });
 </script>
 </body>
